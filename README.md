@@ -20,7 +20,7 @@ Please follow instructions on [GTEx pipeline](https://github.com/RajLabMSSM/gtex
 
 In the end you will need the following files:
 
-* VCF (or BCF) file containing the genotype data.
+#### VCF (or BCF) file containing the genotype data.
   + The vcf must be compressed and indexed. Use the following commands to do this.
 ~~~
 module load tabix
@@ -40,7 +40,7 @@ chr7	456	SNP2	T	C	100	PASS	.	GT:DS	0/0:0.001	0/0:0.000	0/1:1.100	0/0:0.100
 chr7	789	SNP3	A	T	100	PASS	.	GT:DS	1/1:2.000	0/1:1.001	0/0:0.010	0/1:0.890
 ~~~
 
-* BED file containing the phenotype data.
+#### BED file containing the phenotype data.
   + Here we will usually have the expression data. So in addition to the standard expression information (e.g. a table with rows as genes/transcripts and columns as samples), we'll need the genomic position of each gene or transcript. This will follow the standard BED file formart. This file is TAB delimited. Each line corresponds to a single molecular phenotype. The first 6 columns are:
     1. Chromosome ID [string]
     2. Start genomic position of the phenotype (here the TSS of gene1) [integer, 0-based]
@@ -61,7 +61,7 @@ module load tabix
 bgzip myPhenotypes.bed && tabix -p bed phenotypes.bed.gz
 ~~~
 
-* **Optional:** A covariate data (TXT)
+#### Optional: A covariate data (TXT)
   + The COV file contains the covariate data in simple TXT format. Hereafter an example of 4 covariates for 4 samples.
 ~~~
 id	UNR1	UNR2	UNR3	UNR4
@@ -105,10 +105,14 @@ for j in $(seq 1 ${numChunks}); do
       -q premium \
       -J qtltools.chunk.${j}
 done
+~~~
+
+After finishing running all jobs, you can merge the chunks using the command bellow
+~~~
 zcat nominals_*.txt.gz | gzip -c > mergedChunks_nominals.gz
 ~~~
 
-* Output will look like:
+* The output will look like:
 ~~~
 ENSG00000237438.2 chr22 17517460 17517460 + 5803 -202619 rs74762450 chr22 17314841 17314841 0.00957345 -0.347492 0
 ENSG00000237438.2 chr22 17517460 17517460 + 5803 -165953 rs5748687 chr22 17351507 17351507 0.00227542 -0.225077 0
